@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <v-app-bar
       color="primary"
       app
@@ -9,8 +9,8 @@
       <v-spacer/>
       <LocaleSelect v-model="$vuetify.lang.current"/>
     </v-app-bar>
-    <v-main>
-      <WeatherApp/>
+    <v-main class="app__main mx-auto">
+      <WeatherApp :lang="$vuetify.lang.current" />
     </v-main>
   </v-app>
 </template>
@@ -27,3 +27,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.app {
+  &__main {
+    width: 960px;
+  }
+}
+</style>
