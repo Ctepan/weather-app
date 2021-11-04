@@ -9,6 +9,7 @@ export default {
     pressure: 'Давление',
     humidity: 'Влажность',
     wind: 'Ветер',
+    windUnit: 'м/с',
     hpa: 'гПа'
   }
 }

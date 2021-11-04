@@ -9,6 +9,7 @@ export default {
     pressure: 'Pressure',
     humidity: 'Humidity',
     wind: 'Wind',
+    windUnit: 'm/s',
     hpa: 'hPa'
   }
 }
