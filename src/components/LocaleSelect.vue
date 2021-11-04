@@ -1,7 +1,9 @@
 <template>
   <v-select
+    class="locale-select"
     :items="locales"
     :value="value"
+    hide-details
     @input="$emit('input', $event)"
   />
 </template>
@@ -33,5 +35,7 @@ export default {
 </script>
 
 <style scoped>
-
+.locale-select {
+  max-width: 200px;
+}
 </style>
