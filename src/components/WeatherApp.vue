@@ -1,5 +1,5 @@
 <template>
-  <div class="weather-app d-flex pt-10 mx-auto">
+  <div class="weather-app d-flex pt-10">
     <div class="weather-app__search flex-grow-1">
       <v-form
         ref="form"
@@ -17,15 +17,26 @@
         <v-btn
           class="ml-6"
           type="submit"
-        >Узнать погоду</v-btn>
+        >{{ $vuetify.lang.t('$vuetify.weather.submit') }}</v-btn>
       </v-form>
-      {{ weather }}
+      <div v-if="weather === 'not_found'">
+        {{ $vuetify.lang.t('$vuetify.weather.notFound') }}
+      </div>
+      <WeatherInfo
+        v-else-if="weather"
+        :place="weather.name"
+        :temp="temperature"
+        :wind="wind"
+        :humidity="weather.main.humidity"
+        :pressure="weather.main.pressure"
+        :state="weather.weather[0].description"
+      ></WeatherInfo>
     </div>
     <div class="weather-app__search-history flex-shrink-0 ml-5">
       <v-list class="pa-0">
         <v-list-item
           v-for="searchItem in searchHistory"
-          :key="searchItem.date"
+          :key="String(searchItem.date)"
           @click="handleSearchItemClick(searchItem.query)"
         >
           {{ searchItem.query }}
@@ -37,15 +48,41 @@
 
 <script>
 import { Weather } from '@/services/weather'
+import WeatherInfo from './WeatherInfo'
 
 export default {
   name: 'WeatherApp',
+  components: { WeatherInfo },
+  props: {
+    lang: {
+      type: String,
+      default: 'ru'
+    }
+  },
   data() {
     return {
-      requiredRule: x => (typeof x === 'string' && x.length > 0) || 'Введите город',
       weather: null,
       searchQuery: '',
       searchHistory: this.getSearchHistory()
+    }
+  },
+  computed: {
+    temperature() {
+      return {
+        value: this.weather.main.temp,
+        min: this.weather.main.temp_min,
+        max: this.weather.main.temp_max,
+        feels: this.weather.main.feels_like
+      }
+    },
+    wind() {
+      return {
+        value: this.weather.wind.speed,
+        direction: this.weather.wind.deg
+      }
+    },
+    requiredRule() {
+      return x => (typeof x === 'string' && x.length > 0) || this.$vuetify.lang.t('$vuetify.weather.searchRequired')
     }
   },
   methods: {
@@ -54,8 +91,11 @@ export default {
         return
       }
 
-      this.weather = await Weather.get(this.searchQuery)
-      this.addToSearchHistory(this.searchQuery)
+      this.weather = await Weather.get(this.searchQuery, { lang: this.lang })
+
+      if (this.weather) {
+        this.addToSearchHistory(this.searchQuery)
+      }
     },
     handleSearchItemClick(value) {
       this.searchQuery = value
@@ -84,14 +124,11 @@ export default {
 
 <style scoped lang="scss">
 .weather-app {
-  width: 960px;
-
-  &__search {
-
-  }
+  max-height: 500px;
 
   &__search-history {
     width: 300px;
+    overflow: auto;
   }
 }
 </style>
