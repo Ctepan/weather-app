@@ -106,7 +106,13 @@ export default {
         date: new Date()
       }
 
-      this.searchHistory.push(searchItem)
+      const oldSearchItemIdx = this.searchHistory.findIndex(x => x.query === searchQuery)
+
+      if (oldSearchItemIdx !== -1) {
+        this.searchHistory.splice(oldSearchItemIdx, 1)
+      }
+
+      this.searchHistory.unshift(searchItem)
       localStorage.setItem('weather_search_history', JSON.stringify(this.searchHistory))
     },
     getSearchHistory() {
