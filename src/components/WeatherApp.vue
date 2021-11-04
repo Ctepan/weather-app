@@ -85,12 +85,20 @@ export default {
       return x => (typeof x === 'string' && x.length > 0) || this.$vuetify.lang.t('$vuetify.weather.searchRequired')
     }
   },
+  watch: {
+    lang() {
+      this.fetchWeather()
+    }
+  },
   methods: {
-    async handleSubmit() {
+    handleSubmit() {
       if (!this.$refs.form.validate()) {
         return
       }
 
+      this.fetchWeather()
+    },
+    async fetchWeather() {
       this.weather = await Weather.get(this.searchQuery, { lang: this.lang })
 
       if (this.weather) {
