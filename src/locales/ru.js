@@ -10,6 +10,16 @@ export default {
     humidity: 'Влажность',
     wind: 'Ветер',
     windUnit: 'м/с',
+    windDirection: {
+      N: 'С',
+      NW: 'СЗ',
+      W: 'З',
+      SW: 'ЮЗ',
+      S: 'Ю',
+      SE: 'ЮВ',
+      E: 'З',
+      NE: 'СЗ'
+    },
     hpa: 'гПа'
   }
 }

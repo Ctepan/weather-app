@@ -10,6 +10,16 @@ export default {
     humidity: 'Humidity',
     wind: 'Wind',
     windUnit: 'm/s',
+    windDirection: {
+      N: 'N',
+      NW: 'NW',
+      W: 'W',
+      SW: 'SW',
+      S: 'S',
+      SE: 'SE',
+      E: 'E',
+      NE: 'NE'
+    },
     hpa: 'hPa'
   }
 }
