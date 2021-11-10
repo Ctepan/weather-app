@@ -55,7 +55,7 @@ export default {
       weather: null,
       isQueryValid: false,
       searchQuery: '',
-      searchHistory: this.getSearchHistory()
+      searchHistory: []
     }
   },
   computed: {
@@ -78,6 +78,9 @@ export default {
     lang() {
       this.handleSubmit()
     }
+  },
+  created() {
+    this.searchHistory = this.getSearchHistory()
   },
   methods: {
     handleSubmit() {
