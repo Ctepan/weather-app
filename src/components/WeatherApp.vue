@@ -1,24 +1,11 @@
 <template>
   <div class="weather-app d-flex pt-10">
     <div class="weather-app__search flex-grow-1">
-      <v-form
-        ref="form"
-        class="d-flex flex-grow-1"
-        @submit.prevent="handleSubmit"
-      >
-        <v-text-field
-          v-model.trim="searchQuery"
-          outlined
-          dense
-          :rules="[requiredRule]"
-          :validate-on-blur="false"
-        ></v-text-field>
-
-        <v-btn
-          class="ml-6"
-          type="submit"
-        >{{ $vuetify.lang.t('$vuetify.weather.submit') }}</v-btn>
-      </v-form>
+      <WeatherSearch
+        v-model="searchQuery"
+        :valid.sync="isQueryValid"
+        @submit="handleSubmit"
+      />
       <div v-if="weather === 'not_found'">
         {{ $vuetify.lang.t('$vuetify.weather.notFound') }}
       </div>
@@ -49,10 +36,14 @@
 <script>
 import { Weather } from '@/services/weather'
 import WeatherInfo from './WeatherInfo'
+import WeatherSearch from './WeatherSearch'
 
 export default {
   name: 'WeatherApp',
-  components: { WeatherInfo },
+  components: {
+    WeatherInfo,
+    WeatherSearch
+  },
   props: {
     lang: {
       type: String,
@@ -62,6 +53,7 @@ export default {
   data() {
     return {
       weather: null,
+      isQueryValid: false,
       searchQuery: '',
       searchHistory: this.getSearchHistory()
     }
@@ -80,9 +72,6 @@ export default {
         value: this.weather.wind.speed,
         direction: this.weather.wind.deg
       }
-    },
-    requiredRule() {
-      return x => (typeof x === 'string' && x.length > 0) || this.$vuetify.lang.t('$vuetify.weather.searchRequired')
     }
   },
   watch: {
@@ -92,7 +81,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      if (!this.$refs.form.validate()) {
+      if (!this.isQueryValid) {
         return
       }
 
