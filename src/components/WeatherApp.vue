@@ -87,7 +87,7 @@ export default {
   },
   watch: {
     lang() {
-      this.fetchWeather()
+      this.handleSubmit()
     }
   },
   methods: {
