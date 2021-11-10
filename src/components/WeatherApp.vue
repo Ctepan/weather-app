@@ -7,7 +7,7 @@
         @submit.prevent="handleSubmit"
       >
         <v-text-field
-          v-model="searchQuery"
+          v-model.trim="searchQuery"
           outlined
           dense
           :rules="[requiredRule]"
