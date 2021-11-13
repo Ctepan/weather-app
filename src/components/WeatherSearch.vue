@@ -10,7 +10,11 @@
       :readonly="locked"
       outlined
       dense
-    ></v-text-field>
+    >
+      <template #message="{ message }">
+        {{ $vuetify.lang.t(message) }}
+      </template>
+    </v-text-field>
 
     <v-btn
       class="ml-6"
@@ -62,7 +66,7 @@ export default {
   },
   created () {
     this.rules = [
-      x => (typeof x === 'string' && x.trim().length > 0) || this.$vuetify.lang.t('$vuetify.weather.searchRequired')
+      x => (typeof x === 'string' && x.trim().length > 0) || '$vuetify.weather.searchRequired'
     ]
   },
   methods: {
