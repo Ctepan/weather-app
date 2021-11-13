@@ -10,7 +10,7 @@
       <LocaleSelect v-model="$vuetify.lang.current"/>
     </v-app-bar>
     <v-main class="app__main mx-auto">
-      <WeatherApp :lang="$vuetify.lang.current" />
+      <WeatherApp />
     </v-main>
   </v-app>
 </template>

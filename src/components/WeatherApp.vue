@@ -44,12 +44,6 @@ export default {
     WeatherInfo,
     WeatherSearch
   },
-  props: {
-    lang: {
-      type: String,
-      default: 'ru'
-    }
-  },
   data() {
     return {
       weather: null,
@@ -75,7 +69,7 @@ export default {
     }
   },
   watch: {
-    lang() {
+    '$vuetify.lang.current'() {
       this.handleSubmit()
     }
   },
@@ -91,8 +85,7 @@ export default {
       this.fetchWeather()
     },
     async fetchWeather() {
-      this.weather = await Weather.get(this.searchQuery, { lang: this.lang })
-
+      this.weather = await Weather.get(this.searchQuery, { lang: this.$vuetify.lang.current })
       if (this.weather) {
         this.addToSearchHistory(this.searchQuery)
       }
