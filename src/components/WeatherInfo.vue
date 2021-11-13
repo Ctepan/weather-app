@@ -1,5 +1,5 @@
 <template>
-  <div class="elevation-2 pa-4">
+  <v-card class="pa-4">
     <div class="headline">
       <span class="text-h4">{{ place }} {{ temp.value }}°C</span>,
       {{ state }}
@@ -21,7 +21,7 @@
         {{ windDirection }}
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
