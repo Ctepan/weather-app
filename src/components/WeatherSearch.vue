@@ -7,6 +7,7 @@
     <v-text-field
       v-model.trim="proxyValue"
       :rules="rules"
+      :readonly="locked"
       outlined
       dense
     ></v-text-field>
@@ -14,6 +15,7 @@
     <v-btn
       class="ml-6"
       type="submit"
+      :disabled="locked"
     >{{ $vuetify.lang.t('$vuetify.weather.submit') }}</v-btn>
   </v-form>
 </template>
@@ -27,6 +29,10 @@ export default {
       default: ''
     },
     valid: {
+      type: Boolean,
+      default: false
+    },
+    locked: {
       type: Boolean,
       default: false
     }
