@@ -1,5 +1,5 @@
 <template>
-  <div class="weather-app d-flex pt-10">
+  <div class="weather-app d-flex">
     <div class="weather-app__search flex-grow-1">
       <WeatherSearch
         v-model="searchQuery"
