@@ -22,15 +22,11 @@
       ></WeatherInfo>
     </div>
     <div class="weather-app__search-history flex-shrink-0 ml-5">
-      <v-list class="pa-0">
-        <v-list-item
-          v-for="searchItem in searchHistory"
-          :key="String(searchItem.date)"
-          @click="handleSearchItemClick(searchItem.query)"
-        >
-          {{ searchItem.query }}
-        </v-list-item>
-      </v-list>
+      <WeatherSearchHistory
+        :search-items="searchHistory"
+        :locked="isLoading"
+        @input="handleSearchItemClick"
+      />
     </div>
   </div>
 </template>
@@ -40,10 +36,12 @@ import { Weather } from '@/services/weather'
 import WeatherInfo from './WeatherInfo'
 import WeatherSearch from './WeatherSearch'
 import WeatherInfoPreloader from './WeatherInfoPreloader'
+import WeatherSearchHistory from './WeatherSearchHistory'
 
 export default {
   name: 'WeatherApp',
   components: {
+    WeatherSearchHistory,
     WeatherInfoPreloader,
     WeatherInfo,
     WeatherSearch
