@@ -4,9 +4,11 @@
       <WeatherSearch
         v-model="searchQuery"
         :valid.sync="isQueryValid"
+        :locked="isLoading"
         @submit="handleSubmit"
       />
-      <div v-if="weather === 'not_found'">
+      <WeatherInfoPreloader v-if="isLoading"/>
+      <div v-else-if="weather === 'not_found'">
         {{ $vuetify.lang.t('$vuetify.weather.notFound') }}
       </div>
       <WeatherInfo
@@ -37,10 +39,12 @@
 import { Weather } from '@/services/weather'
 import WeatherInfo from './WeatherInfo'
 import WeatherSearch from './WeatherSearch'
+import WeatherInfoPreloader from './WeatherInfoPreloader'
 
 export default {
   name: 'WeatherApp',
   components: {
+    WeatherInfoPreloader,
     WeatherInfo,
     WeatherSearch
   },
@@ -48,6 +52,7 @@ export default {
     return {
       weather: null,
       isQueryValid: false,
+      isLoading: false,
       searchQuery: '',
       searchHistory: []
     }
@@ -77,15 +82,18 @@ export default {
     this.searchHistory = this.getSearchHistory()
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       if (!this.isQueryValid) {
         return
       }
 
-      this.fetchWeather()
+      this.isLoading = true
+      await this.fetchWeather()
+      this.isLoading = false
     },
     async fetchWeather() {
       this.weather = await Weather.get(this.searchQuery, { lang: this.$vuetify.lang.current })
+
       if (this.weather) {
         this.addToSearchHistory(this.searchQuery)
       }
